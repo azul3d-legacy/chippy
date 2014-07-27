@@ -19,6 +19,6 @@ func init() {
 	buf := bytes.NewBuffer(defaultIconBytes)
 	defaultIcon, _, err = image.Decode(buf)
 	if err != nil {
-		panic(fmt.Sprintf("Unable to decode default icon", err))
+		panic(fmt.Sprintf("Unable to decode default icon %v", err))
 	}
 }
