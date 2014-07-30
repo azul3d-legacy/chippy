@@ -8,7 +8,7 @@ import (
 	"azul3d.org/chippy.v1/internal/x11"
 	"azul3d.org/keyboard.v1"
 	"azul3d.org/mouse.v1"
-	"azul3d.org/thirdparty/resize.v1"
+	"azul3d.org/chippy.v1/internal/resize"
 	"errors"
 	"image"
 	"image/draw"
