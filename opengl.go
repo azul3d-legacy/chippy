@@ -127,16 +127,12 @@ const (
 // defined in this package or not.
 func (mode VSyncMode) Valid() bool {
 	switch mode {
-	case VerticalSync:
+	case VerticalSync, NoVerticalSync, AdaptiveVerticalSync:
 		return true
 
-	case NoVerticalSync:
-		return true
-
-	case AdaptiveVerticalSync:
-		return true
+	default:
+		return false
 	}
-	return false
 }
 
 // String returns a string representation of this vertical sync mode.
@@ -150,8 +146,11 @@ func (mode VSyncMode) String() string {
 
 	case AdaptiveVerticalSync:
 		return "AdaptiveVerticalSync"
+
+	default:
+		return fmt.Sprintf("VSyncMode(%d)", mode)	
 	}
-	return fmt.Sprintf("VSyncMode(%d)", mode)
+
 }
 
 // GLContext represents an OpenGL contect; although it represents any value it
