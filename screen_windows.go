@@ -5,10 +5,11 @@
 package chippy
 
 import (
-	"azul3d.org/chippy.v1/internal/win32"
 	"fmt"
 	"runtime"
 	"sync"
+
+	"azul3d.org/chippy.v1/internal/win32"
 )
 
 type NativeScreenMode struct {

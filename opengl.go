@@ -148,7 +148,7 @@ func (mode VSyncMode) String() string {
 		return "AdaptiveVerticalSync"
 
 	default:
-		return fmt.Sprintf("VSyncMode(%d)", mode)	
+		return fmt.Sprintf("VSyncMode(%d)", mode)
 	}
 
 }

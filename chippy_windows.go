@@ -5,13 +5,14 @@
 package chippy
 
 import (
-	"azul3d.org/chippy.v1/internal/win32"
-	"azul3d.org/keyboard.v1"
 	"fmt"
 	"runtime"
 	"sync"
 	"time"
 	"unsafe"
+
+	"azul3d.org/chippy.v1/internal/win32"
+	"azul3d.org/keyboard.v1"
 )
 
 func eventLoop() {

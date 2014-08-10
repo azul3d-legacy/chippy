@@ -7,7 +7,6 @@
 package main
 
 import (
-	"azul3d.org/chippy.v1"
 	"flag"
 	"image"
 	"image/draw"
@@ -16,6 +15,8 @@ import (
 	"os"
 	"runtime/pprof"
 	"time"
+
+	"azul3d.org/chippy.v1"
 )
 
 var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")

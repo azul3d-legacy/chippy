@@ -5,10 +5,11 @@
 package chippy
 
 import (
-	"azul3d.org/chippy.v1/internal/win32"
 	"errors"
 	"fmt"
 	"runtime"
+
+	"azul3d.org/chippy.v1/internal/win32"
 )
 
 type W32GLContext struct {

@@ -11,12 +11,13 @@ package main
 // to hide the command prompt
 
 import (
-	"azul3d.org/chippy.v1"
-	"azul3d.org/keyboard.v1"
 	"fmt"
 	"log"
 	"os"
 	"unicode/utf8"
+
+	"azul3d.org/chippy.v1"
+	"azul3d.org/keyboard.v1"
 )
 
 func program() {

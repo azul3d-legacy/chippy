@@ -7,15 +7,16 @@
 package main
 
 import (
-	"azul3d.org/chippy.v1"
-	"azul3d.org/clock.v1"
-	"azul3d.org/keyboard.v1"
-	opengl "azul3d.org/native/gl.v1"
 	"log"
 	"math"
 	"os"
 	"runtime"
 	"time"
+
+	"azul3d.org/chippy.v1"
+	"azul3d.org/clock.v1"
+	"azul3d.org/keyboard.v1"
+	opengl "azul3d.org/native/gl.v1"
 )
 
 var (

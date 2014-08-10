@@ -5,12 +5,13 @@
 package chippy
 
 import (
-	"azul3d.org/chippy.v1/internal/x11"
 	"errors"
 	"fmt"
 	"image"
 	"sync"
 	"unsafe"
+
+	"azul3d.org/chippy.v1/internal/x11"
 )
 
 var (

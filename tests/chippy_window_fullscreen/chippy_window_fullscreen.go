@@ -7,10 +7,11 @@
 package main
 
 import (
-	"azul3d.org/chippy.v1"
 	"log"
 	"os"
 	"time"
+
+	"azul3d.org/chippy.v1"
 )
 
 func program() {

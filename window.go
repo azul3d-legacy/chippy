@@ -5,12 +5,13 @@
 package chippy
 
 import (
-	"azul3d.org/keyboard.v1"
-	"azul3d.org/mouse.v1"
 	"fmt"
 	"image"
 	"sync"
 	"time"
+
+	"azul3d.org/keyboard.v1"
+	"azul3d.org/mouse.v1"
 )
 
 // Window represents an single window, it will be non-visible untill the Open

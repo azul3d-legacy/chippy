@@ -5,9 +5,10 @@
 package chippy
 
 import (
-	"azul3d.org/chippy.v1/internal/x11"
 	"errors"
 	"unsafe"
+
+	"azul3d.org/chippy.v1/internal/x11"
 )
 
 type X11GLContext struct {

@@ -5,10 +5,6 @@
 package chippy
 
 import (
-	"azul3d.org/chippy.v1/internal/resize"
-	"azul3d.org/chippy.v1/internal/x11"
-	"azul3d.org/keyboard.v1"
-	"azul3d.org/mouse.v1"
 	"errors"
 	"image"
 	"image/draw"
@@ -18,6 +14,11 @@ import (
 	"time"
 	"unicode/utf8"
 	"unsafe"
+
+	"azul3d.org/chippy.v1/internal/resize"
+	"azul3d.org/chippy.v1/internal/x11"
+	"azul3d.org/keyboard.v1"
+	"azul3d.org/mouse.v1"
 )
 
 func toKeyboard(ks x11.Keysym) keyboard.Key {

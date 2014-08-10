@@ -5,10 +5,6 @@
 package chippy
 
 import (
-	"azul3d.org/chippy.v1/internal/resize"
-	"azul3d.org/chippy.v1/internal/win32"
-	"azul3d.org/keyboard.v1"
-	"azul3d.org/mouse.v1"
 	"errors"
 	"fmt"
 	"image"
@@ -17,6 +13,11 @@ import (
 	"sync"
 	"time"
 	"unsafe"
+
+	"azul3d.org/chippy.v1/internal/resize"
+	"azul3d.org/chippy.v1/internal/win32"
+	"azul3d.org/keyboard.v1"
+	"azul3d.org/mouse.v1"
 )
 
 var windowsByHwnd = make(map[win32.HWND]*NativeWindow)
