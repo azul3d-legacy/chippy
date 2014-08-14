@@ -696,6 +696,9 @@ func (w *NativeWindow) doRebuildWindow() (err error) {
 			1,
 			unsafe.Pointer(&aWmDeleteWindow),
 		)
+
+		// Flush now so that the change is properly commited to the X server.
+		xConnection.Flush()
 	}
 
 	return
