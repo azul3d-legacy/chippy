@@ -1082,6 +1082,21 @@ func (w *NativeWindow) handleEvent(ref *x11.GenericEvent, e interface{}) {
 		w.can.RUnlock()
 
 	case *x11.ExposeEvent:
+		// Send a paint event if the rectangle is well-formed.
+		x0 := int(ev.X)
+		y0 := int(ev.Y)
+		x1 := int(ev.X + ev.Width)
+		y1 := int(ev.Y + ev.Height)
+
+		if x0 <= x1 && y0 <= y1 {
+			w.r.send(PaintEvent{
+				T:         time.Now(),
+				Rectangle: image.Rect(x0, y0, x1, y1),
+			})
+		} else {
+			logger().Println("WARNING: Got non well-formed ExposeEvent rectangle, ignored!")
+		}
+
 		go func() {
 			select {
 			case w.waitForMap <- true:
