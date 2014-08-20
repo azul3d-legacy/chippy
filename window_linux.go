@@ -17,6 +17,7 @@ import (
 
 	"azul3d.org/chippy.v1/internal/resize"
 	"azul3d.org/chippy.v1/internal/x11"
+	"azul3d.org/chippy.v1/internal/xkbcommon"
 	"azul3d.org/keyboard.v1"
 	"azul3d.org/mouse.v1"
 )
@@ -799,7 +800,7 @@ func (w *NativeWindow) handleEvent(ref *x11.GenericEvent, e interface{}) {
 	switch ev := e.(type) {
 	case *x11.KeyPressEvent:
 		xkbContext.Lock()
-		keycode := x11.XkbKeycode(ev.Detail)
+		keycode := xkbcommon.XkbKeycode(ev.Detail)
 		keysym := xkbState.KeyGetOneSym(keycode)
 		r := keysym.Rune()
 		xkbContext.Unlock()
@@ -826,7 +827,7 @@ func (w *NativeWindow) handleEvent(ref *x11.GenericEvent, e interface{}) {
 
 	case *x11.KeyReleaseEvent:
 		xkbContext.Lock()
-		keycode := x11.XkbKeycode(ev.Detail)
+		keycode := xkbcommon.XkbKeycode(ev.Detail)
 		keysym := xkbState.KeyGetOneSym(keycode)
 		xkbContext.Unlock()
 

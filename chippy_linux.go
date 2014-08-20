@@ -12,6 +12,7 @@ import (
 	"unsafe"
 
 	"azul3d.org/chippy.v1/internal/x11"
+	"azul3d.org/chippy.v1/internal/xkbcommon"
 )
 
 var (
@@ -28,11 +29,11 @@ var (
 	// just use a simple mutex for synchronization.
 	xkbContext struct {
 		sync.Mutex
-		ctx *x11.XkbContext
+		ctx *xkbcommon.XkbContext
 	}
 	xkbDevice    int32
-	xkbKeymap    *x11.XkbKeymap
-	xkbState     *x11.XkbState
+	xkbKeymap    *xkbcommon.XkbKeymap
+	xkbState     *xkbcommon.XkbState
 	xkbBaseEvent uint8
 
 	ErrInvalidGLXVersion = errors.New("GLX version 1.4 is required but not available.")
@@ -48,13 +49,18 @@ const (
 	xinputMinMajor = 2
 	xinputMinMinor = 0
 
-	xkbMinMajor = x11.XKB_X11_MIN_MAJOR_XKB_VERSION
-	xkbMinMinor = x11.XKB_X11_MIN_MINOR_XKB_VERSION
+	xkbMinMajor = xkbcommon.XKB_X11_MIN_MAJOR_XKB_VERSION
+	xkbMinMinor = xkbcommon.XKB_X11_MIN_MINOR_XKB_VERSION
 
 	// We need GLX 1.4 for multisampling
 	glxMinMajor = 1
 	glxMinMinor = 4
 )
+
+// Converts an *x11.Connection to an *xkbcommon.Connection type.
+func xkbcommonConn(c *x11.Connection) *xkbcommon.Connection {
+	return (*xkbcommon.Connection)(unsafe.Pointer(c))
+}
 
 var (
 	// EWMH atoms
@@ -93,7 +99,7 @@ func initAtoms() {
 func refreshKeyboardMapping() error {
 	// Create keymap from the device.
 	xkbContext.Lock()
-	xkbKeymap = xConnection.XkbX11KeymapNewFromDevice(xkbContext.ctx, xkbDevice, 0)
+	xkbKeymap = xkbcommon.XkbX11KeymapNewFromDevice(xkbContext.ctx, xkbcommonConn(xConnection), xkbDevice, 0)
 	xkbContext.Unlock()
 	if xkbKeymap == nil {
 		return errors.New("XKB-common could not create keymap from device.")
@@ -101,7 +107,7 @@ func refreshKeyboardMapping() error {
 
 	// Create keyboard state manager from keymap and device.
 	xkbContext.Lock()
-	xkbState = xConnection.XkbX11StateNewFromDevice(xkbKeymap, xkbDevice)
+	xkbState = xkbcommon.XkbX11StateNewFromDevice(xkbcommonConn(xConnection), xkbKeymap, xkbDevice)
 	xkbContext.Unlock()
 	if xkbState == nil {
 		return errors.New("XKB-common could not create keyboard state manager from device.")
@@ -165,12 +171,12 @@ func xkbHandleEvent(e *x11.GenericEvent) {
 		ev := (*x11.XkbStateNotifyEvent)(unsafe.Pointer(e.EGenericEvent))
 		xkbContext.Lock()
 		xkbState.UpdateMask(
-			x11.XkbModMask(ev.BaseMods()),
-			x11.XkbModMask(ev.LatchedMods()),
-			x11.XkbModMask(ev.LockedMods()),
-			x11.XkbLayoutIndex(ev.BaseGroup()),
-			x11.XkbLayoutIndex(ev.LatchedGroup()),
-			x11.XkbLayoutIndex(ev.LockedGroup()),
+			xkbcommon.XkbModMask(ev.BaseMods()),
+			xkbcommon.XkbModMask(ev.LatchedMods()),
+			xkbcommon.XkbModMask(ev.LockedMods()),
+			xkbcommon.XkbLayoutIndex(ev.BaseGroup()),
+			xkbcommon.XkbLayoutIndex(ev.LatchedGroup()),
+			xkbcommon.XkbLayoutIndex(ev.LockedGroup()),
 		)
 		xkbContext.Unlock()
 	}
@@ -456,7 +462,7 @@ func backend_Init() (err error) {
 		ret                int
 		xkbMajor, xkbMinor uint16
 	)
-	ret, xkbMajor, xkbMinor, xkbBaseEvent, _ = xConnection.XkbX11SetupXkbExtension(xkbMinMajor, xkbMinMinor, 0)
+	ret, xkbMajor, xkbMinor, xkbBaseEvent, _ = xkbcommon.XkbX11SetupXkbExtension(xkbcommonConn(xConnection), xkbMinMajor, xkbMinMinor, 0)
 	if ret == 0 {
 		theLogger.Printf("XKB version %d.%d exists, we require at least %d.%d\n", xkbMajor, xkbMinor, xkbMinMajor, xkbMinMinor)
 		return ErrInvalidXKBVersion
@@ -464,14 +470,14 @@ func backend_Init() (err error) {
 
 	// Create XKB context.
 	xkbContext.Lock()
-	xkbContext.ctx = x11.XkbContextNew(0)
+	xkbContext.ctx = xkbcommon.XkbContextNew(0)
 	xkbContext.Unlock()
 	if xkbContext.ctx == nil {
 		return errors.New("XKB-common context could not be initialized!")
 	}
 
 	// Query the core/default keyboard device id.
-	xkbDevice = xConnection.XkbX11GetCoreKeyboardDeviceId()
+	xkbDevice = xkbcommon.XkbX11GetCoreKeyboardDeviceId(xkbcommonConn(xConnection))
 	if xkbDevice == -1 {
 		return errors.New("XKB-common could not query core keyboard device")
 	}
