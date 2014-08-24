@@ -9,7 +9,7 @@ package xkbcommon
 #include <stdlib.h>
 #include "libxkbcommon/xkbcommon/xkbcommon-x11.h"
 
-#cgo CFLAGS: -std=gnu99  -D_GNU_SOURCE -O3 -Ilibxkbcommon/src -Ilibxkbcommon/src/xkbcomp
+#cgo CFLAGS: -std=gnu99 -D_GNU_SOURCE -O3 -Ilibxkbcommon/src -Ilibxkbcommon/src/xkbcomp
 #cgo CFLAGS: -Ilibxkbcommon/
 #cgo LDFLAGS: -lxcb -lXau -lXdmcp -lxcb-xkb
 */
